@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Question Tags - Learn & Quiz</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+    color: #172033;
+    background:
+        radial-gradient(circle at 5% 10%, #d7f9e5 0, transparent 24%),
+        radial-gradient(circle at 95% 10%, #cfe9ff 0, transparent 25%),
+        radial-gradient(circle at 90% 90%, #e5d8ff 0, transparent 28%),
+        linear-gradient(135deg, #f4fff8, #f4f8ff);
+    display: flex;
+    flex-direction: column;
+}
+
+.top-bar {
+    height: 8px;
+    background: linear-gradient(
+        90deg,
+        #16a05d,
+        #43c979,
+        #65b8ff,
+        #7657d9,
+        #ff6b8a
+    );
+}
+
+header {
+    text-align: center;
+    padding: 30px 20px 15px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 7px 16px;
+    border-radius: 30px;
+    background: white;
+    color: #168b51;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 1px;
+    box-shadow: 0 5px 20px rgba(30, 100, 70, 0.09);
+    margin-bottom: 12px;
+}
+
+header h1 {
+    font-size: clamp(32px, 5vw, 50px);
+    background: linear-gradient(90deg, #168b51, #287fc2, #7657d9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+}
+
+header p {
+    color: #656d7d;
+    font-size: 16px;
+}
+
+.container {
+    width: min(900px, 92%);
+    margin: 20px auto 90px;
+    flex: 1;
+}
+
+/* NAVIGATION */
+
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.nav button {
+    border: none;
+    padding: 11px 22px;
+    border-radius: 14px;
+    background: white;
+    color: #647083;
+    font-weight: 750;
+    cursor: pointer;
+    box-shadow: 0 5px 18px rgba(40,60,100,0.08);
+    transition: 0.2s ease;
+}
+
+.nav button:hover {
+    transform: translateY(-2px);
+}
+
+.nav button.active {
+    background: linear-gradient(135deg, #168b51, #287fc2);
+    color: white;
+}
+
+/* LEARN SECTION */
+
+.learn-section {
+    display: block;
+}
+
+.learn-card {
+    background: rgba(255,255,255,0.92);
+    border-radius: 25px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 15px 45px rgba(40,70,100,0.10);
+    border: 1px solid rgba(255,255,255,0.95);
+    animation: fadeIn 0.5s ease;
+}
+
+.learn-card h2 {
+    color: #168b51;
+    margin-bottom: 12px;
+    font-size: 24px;
+}
+
+.learn-card h3 {
+    color: #287fc2;
+    margin: 20px 0 8px;
+}
+
+.learn-card p {
+    color: #535c6d;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+.rule-box {
+    background: #eefaf3;
+    border-left: 5px solid #16a05d;
+    padding: 15px 18px;
+    border-radius: 12px;
+    margin-top: 15px;
+    line-height: 1.7;
+}
+
+.example {
+    background: #f5f2ff;
+    border-left: 5px solid #7657d9;
+    padding: 13px 17px;
+    border-radius: 12px;
+    margin-top: 12px;
+    font-weight: 600;
+    color: #433a67;
+}
+
+.warning {
+    background: #fff4df;
+    border-left: 5px solid #f0a52c;
+    padding: 15px 18px;
+    border-radius: 12px;
+    margin-top: 15px;
+    line-height: 1.7;
+}
+
+.start-area {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.start-btn {
+    border: none;
+    padding: 16px 35px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #168b51, #287fc2);
+    color: white;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(30,100,130,0.23);
+    transition: 0.25s ease;
+}
+
+.start-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 30px rgba(30,100,130,0.3);
+}
+
+/* QUIZ */
+
+.quiz-section {
+    display: none;
+}
+
+.score-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.progress-text,
+.score {
+    background: rgba(255,255,255,0.9);
+    padding: 10px 17px;
+    border-radius: 14px;
+    font-weight: 750;
+    box-shadow: 0 7px 25px rgba(40,60,100,0.08);
+}
+
+.progress-text {
+    color: #287fc2;
+}
+
+.score {
+    color: #168b51;
+}
+
+.progress-bar {
+    height: 9px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 22px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 2%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #16a05d, #5bc0eb, #7657d9);
+    transition: width 0.5s ease;
+}
+
+.quiz-card {
+    position: relative;
+    background: rgba(255,255,255,0.92);
+    border-radius: 28px;
+    padding: clamp(25px, 5vw, 48px);
+    box-shadow: 0 20px 60px rgba(40,70,100,0.13);
+    overflow: hidden;
+}
+
+.quiz-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(
+        90deg,
+        #16a05d,
+        #5bc0eb,
+        #7657d9,
+        #ff668c
+    );
+}
+
+.question-number {
+    color: #7a8395;
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.question {
+    font-size: clamp(21px, 4vw, 31px);
+    line-height: 1.4;
+    font-weight: 750;
+    margin-bottom: 32px;
+    color: #20283a;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.option {
+    border: 2px solid #e9edf3;
+    background: #ffffff;
+    color: #30394a;
+    padding: 17px 20px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 650;
+    text-align: left;
+    transition: 0.2s ease;
+}
+
+.option:hover:not(:disabled) {
+    transform: translateY(-3px);
+    border-color: #8bcfaf;
+    box-shadow: 0 8px 20px rgba(40,120,80,0.12);
+}
+
+.option:disabled {
+    cursor: default;
+}
+
+.option.correct {
+    background: #d9f8e7;
+    border-color: #43c985;
+    color: #197747;
+    animation: correctPop 0.35s ease;
+}
+
+.option.incorrect {
+    background: #ffe0e8;
+    border-color: #ef6687;
+    color: #b52f52;
+    animation: wrongShake 0.4s ease;
+}
+
+.option.show-correct {
+    background: #d9f8e7;
+    border-color: #43c985;
+    color: #197747;
+}
+
+.feedback {
+    min-height: 28px;
+    margin-top: 20px;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.feedback.correct-text {
+    color: #23945c;
+}
+
+.feedback.wrong-text {
+    color: #d74468;
+}
+
+.next-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+.next-btn,
+.restart-btn {
+    border: none;
+    padding: 14px 25px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #168b51, #287fc2);
+    color: white;
+    font-size: 15px;
+    font-weight: 750;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(30,100,130,0.22);
+    transition: 0.2s ease;
+}
+
+.next-btn:hover,
+.restart-btn:hover {
+    transform: translateY(-3px);
+}
+
+.next-btn {
+    display: none;
+}
+
+/* RESULTS */
+
+.results {
+    display: none;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.results-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #b8f1cf, #b8dcff);
+    font-size: 34px;
+    font-weight: 900;
+    color: #168b51;
+}
+
+.results h2 {
+    font-size: clamp(30px, 6vw, 45px);
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #168b51, #287fc2, #7657d9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.final-score {
+    font-size: 64px;
+    font-weight: 850;
+    color: #168b51;
+    margin: 10px 0;
+}
+
+.out-of {
+    color: #777d8b;
+    font-weight: 650;
+    margin-bottom: 20px;
+}
+
+.result-message {
+    color: #575f70;
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto 28px;
+}
+
+.score-bar-final {
+    height: 13px;
+    max-width: 550px;
+    margin: 0 auto 30px;
+    background: #e9edf4;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.score-bar-final-fill {
+    width: 0;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #16a05d, #5bc0eb, #7657d9);
+    transition: width 1.2s ease;
+}
+
+footer {
+    text-align: center;
+    padding: 17px 15px;
+    background: rgba(255,255,255,0.78);
+    border-top: 1px solid rgba(100,130,150,0.12);
+    color: #686f7d;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+footer strong {
+    color: #168b51;
+}
+
+.fade {
+    animation: fadeIn 0.45s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes correctPop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.025);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes wrongShake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .container {
+        width: 94%;
+    }
+
+    .nav {
+        flex-wrap: wrap;
+    }
+
+    .nav button {
+        flex: 1;
+        min-width: 120px;
+    }
+
+    .learn-card {
+        padding: 22px;
+    }
+
+    .score-area {
+        font-size: 13px;
+    }
+
+    .score,
+    .progress-text {
+        padding: 8px 12px;
+    }
+
+    .options {
+        grid-template-columns: 1fr;
+    }
+
+    .quiz-card {
+        border-radius: 22px;
+        padding: 25px 20px;
+    }
+
+    .next-container {
+        justify-content: stretch;
+    }
+
+    .next-btn {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-bar"></div>
+
+<header>
+    <div class="badge">ENGLISH GRAMMAR</div>
+
+    <h1>Question Tags</h1>
+
+    <p>
+        Learn the rules, practise the examples, then take the 50-question challenge.
+    </p>
+</header>
+
+<div class="container">
+
+    <div class="nav">
+        <button id="learnTab" class="active" onclick="showLearn()">
+            Learn
+        </button>
+
+        <button id="quizTab" onclick="showQuiz()">
+            Quiz
+        </button>
+    </div>
+
+    <!-- LEARN SECTION -->
+
+    <section class="learn-section" id="learnSection">
+
+        <div class="learn-card fade">
+
+            <h2>What are Question Tags?</h2>
+
+            <p>
+                A question tag is a short question added to the end of a statement.
+                We use question tags when we want confirmation or want to check
+                whether something is true.
+            </p>
+
+            <div class="example">
+                You are ready, aren't you?
+            </div>
+
+            <div class="example">
+                She likes football, doesn't she?
+            </div>
+
+        </div>
+
+        <div class="learn-card">
+
+            <h2>Rule 1: Positive Statement → Negative Tag</h2>
+
+            <p>
+                When the main statement is positive, the question tag is usually
+                negative.
+            </p>
+
+            <div class="rule-box">
+                Positive statement + negative question tag
+            </div>
+
+            <div class="example">
+                Avyan plays football well, doesn't he?
+            </div>
+
+            <div class="example">
+                She is happy, isn't she?
+            </div>
+
+        </div>
+
+        <div class="learn-card">
+
+            <h2>Rule 2: Negative Statement → Positive Tag</h2>
+
+            <p>
+                When the statement is negative, the question tag is usually positive.
+            </p>
+
+            <div class="rule-box">
+                Negative statement + positive question tag
+            </div>
+
+            <div class="example">
+                Darsh isn't late, is he?
+            </div>
+
+            <div class="example">
+                They don't play today, do they?
+            </div>
+
+        </div>
+
+        <div class="learn-card">
+
+            <h2>Rule 3: Use the Helping Verb</h2>
+
+            <p>
+                The helping verb in the statement is normally repeated in the
+                question tag.
+            </p>
+
+            <div class="example">
+                She is studying, isn't she?
+            </div>
+
+            <div class="example">
+                They have finished, haven't they?
+            </div>
+
+            <div class="example">
+                He will come, won't he?
+            </div>
+
+        </div>
+
+        <div class="learn-card">
+
+            <h2>Rule 4: Modal Verbs</h2>
+
+            <p>
+                With modal verbs such as can, could, should, would, must and will,
+                use the same modal verb in the tag.
+            </p>
+
+            <div class="example">
+                Avyan can score, can't he?
+            </div>
+
+            <div class="example">
+                You should study, shouldn't you?
+            </div>
+
+            <div class="example">
+                They will arrive soon, won't they?
+            </div>
+
+        </div>
+
+        <div class="learn-card">
+
+            <h2>Rule 5: Imperatives</h2>
+
+            <p>
+                Imperatives are commands or requests. Their question tags often use
+                "will you?"
+            </p>
+
+            <div class="example">
+                Open the door, will you?
+            </div>
+
+            <div class="example">
+                Pass the ball, will you?
+            </div>
+
+            <div class="example">
+                Don't make noise, will you?
+            </div>
+
+        </div>
+
+        <div class="learn-card">
+
+            <h2>Special Case: Let's</h2>
+
+            <p>
+                When a sentence begins with "Let's", the usual question tag is
+                "shall we?"
+            </p>
+
+            <div class="example">
+                Let's go outside, shall we?
+            </div>
+
+            <div class="example">
+                Let's practise, shall we?
+            </div>
+
+        </div>
+
+        <div class="learn-card">
+
+            <h2>Special Case: I am</h2>
+
+            <p>
+                The special question tag for "I am" is "aren't I?"
+            </p>
+
+            <div class="example">
+                I am late, aren't I?
+            </div>
+
+            <div class="example">
+                I am doing well, aren't I?
+            </div>
+
+        </div>
+
+        <div class="learn-card">
+
+            <h2>Special Words with Negative Meaning</h2>
+
+            <p>
+                Words such as never, nobody, nothing, hardly, rarely and seldom
+                already give a negative meaning. Therefore, they normally take a
+                positive question tag.
+            </p>
+
+            <div class="example">
+                He never complains, does he?
+            </div>
+
+            <div class="example">
+                Nobody called, did they?
+            </div>
+
+            <div class="example">
+                Nothing happened, did it?
+            </div>
+
+        </div>
+
+        <div class="learn-card">
+
+            <h2>Important Exceptions</h2>
+
+            <div class="warning">
+                Some expressions have special forms. For example:
+                <br><br>
+                Let's go, shall we?
+                <br>
+                Open the door, will you?
+                <br>
+                I am late, aren't I?
+                <br>
+                You'd better hurry, hadn't you?
+            </div>
+
+        </div>
+
+        <div class="start-area">
+
+            <button class="start-btn" onclick="startQuiz()">
+                Start 50-Question Quiz
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- QUIZ SECTION -->
+
+    <section class="quiz-section" id="quizSection">
+
+        <div class="score-area">
+
+            <div class="progress-text" id="progressText">
+                Question 1 of 50
+            </div>
+
+            <div class="score" id="scoreText">
+                Score: 0
+            </div>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                id="progressFill">
+            </div>
+
+        </div>
+
+        <section class="quiz-card">
+
+            <div id="quizScreen">
+
+                <div
+                    class="question-number"
+                    id="questionNumber">
+                    QUESTION 1
+                </div>
+
+                <div
+                    class="question"
+                    id="questionText">
+                </div>
+
+                <div
+                    class="options"
+                    id="options">
+                </div>
+
+                <div
+                    class="feedback"
+                    id="feedback">
+                </div>
+
+                <div class="next-container">
+
+                    <button
+                        class="next-btn"
+                        id="nextBtn"
+                        onclick="nextQuestion()">
+                        Next Question
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="results" id="resultsScreen">
+
+                <div class="results-icon">
+                    50
+                </div>
+
+                <h2>Quiz Complete!</h2>
+
+                <div
+                    class="final-score"
+                    id="finalScore">
+                    0
+                </div>
+
+                <div class="out-of">
+                    out of 50
+                </div>
+
+                <div class="score-bar-final">
+
+                    <div
+                        class="score-bar-final-fill"
+                        id="finalScoreFill">
+                    </div>
+
+                </div>
+
+                <p
+                    class="result-message"
+                    id="resultMessage">
+                </p>
+
+                <button
+                    class="restart-btn"
+                    onclick="restartQuiz()">
+                    Try Again
+                </button>
+
+            </div>
+
+        </section>
+
+    </section>
+
+</div>
+
+<footer>
+    <strong>Made by Avyan</strong> | For Class 7F & Jasmine ma'am
+</footer>
+
+
+<script>
+
+const questions = [
+
+    {
+        q: "Avyan scores a brilliant goal, ______?",
+        options: ["doesn't he?", "does he?", "isn't he?", "is he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh missed another easy chance, ______?",
+        options: ["didn't he?", "did he?", "wasn't he?", "doesn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan is the fastest player on the pitch, ______?",
+        options: ["isn't he?", "is he?", "doesn't he?", "wasn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh can't defend properly, ______?",
+        options: ["can he?", "can't he?", "does he?", "is he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan can dribble past defenders easily, ______?",
+        options: ["can't he?", "can he?", "doesn't he?", "isn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh needs to improve his passing, ______?",
+        options: ["doesn't he?", "does he?", "isn't he?", "didn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan never misses an easy chance, ______?",
+        options: ["does he?", "doesn't he?", "is he?", "did he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh rarely wins a tackle, ______?",
+        options: ["does he?", "doesn't he?", "is he?", "didn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan scored a hat-trick, ______?",
+        options: ["didn't he?", "did he?", "wasn't he?", "doesn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh wasn't very accurate with his shots, ______?",
+        options: ["was he?", "wasn't he?", "did he?", "is he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan has improved his finishing, ______?",
+        options: ["hasn't he?", "has he?", "doesn't he?", "isn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh hasn't scored today, ______?",
+        options: ["has he?", "hasn't he?", "did he?", "is he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan will score again, ______?",
+        options: ["won't he?", "will he?", "doesn't he?", "isn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh won't forget his next training session, ______?",
+        options: ["will he?", "won't he?", "does he?", "is he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan should be the captain, ______?",
+        options: ["shouldn't he?", "should he?", "isn't he?", "doesn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh shouldn't shoot from every position, ______?",
+        options: ["should he?", "shouldn't he?", "does he?", "is he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan could score from that distance, ______?",
+        options: ["couldn't he?", "could he?", "doesn't he?", "isn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh couldn't control the ball properly, ______?",
+        options: ["could he?", "couldn't he?", "did he?", "was he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan would make a great striker, ______?",
+        options: ["wouldn't he?", "would he?", "doesn't he?", "isn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh wouldn't pass the ball when he should, ______?",
+        options: ["would he?", "wouldn't he?", "did he?", "is he?"],
+        answer: 0
+    },
+
+    {
+        q: "Let's watch Avyan take the free kick, ______?",
+        options: ["shall we?", "will we?", "don't we?", "aren't we?"],
+        answer: 0
+    },
+
+    {
+        q: "Let's not blame Darsh for one missed chance, ______?",
+        options: ["shall we?", "will we?", "do we?", "aren't we?"],
+        answer: 0
+    },
+
+    {
+        q: "Pass the ball to Avyan, ______?",
+        options: ["will you?", "do you?", "are you?", "shall you?"],
+        answer: 0
+    },
+
+    {
+        q: "Don't shoot from there, Darsh, ______?",
+        options: ["will you?", "do you?", "shall you?", "are you?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan is going to score, ______?",
+        options: ["isn't he?", "is he?", "doesn't he?", "won't he?"],
+        answer: 0
+    },
+
+    {
+        q: "I am sure Avyan will win the match, ______?",
+        options: ["aren't I?", "am I?", "isn't I?", "don't I?"],
+        answer: 0
+    },
+
+    {
+        q: "Nobody can stop Avyan's attack, ______?",
+        options: ["can they?", "can't they?", "can he?", "isn't it?"],
+        answer: 0
+    },
+
+    {
+        q: "Everyone enjoyed Avyan's goal, ______?",
+        options: ["didn't they?", "did they?", "wasn't it?", "weren't they?"],
+        answer: 0
+    },
+
+    {
+        q: "Someone should teach Darsh better defending, ______?",
+        options: ["shouldn't they?", "should they?", "shouldn't he?", "doesn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Nothing can stop Avyan when he is attacking, ______?",
+        options: ["can it?", "can't it?", "can he?", "does it?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh hardly ever wins a one-on-one duel, ______?",
+        options: ["does he?", "doesn't he?", "is he?", "did he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan always keeps his cool under pressure, ______?",
+        options: ["doesn't he?", "does he?", "isn't he?", "did he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh rarely makes a perfect pass, ______?",
+        options: ["does he?", "doesn't he?", "is he?", "didn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan has never lost his confidence, ______?",
+        options: ["has he?", "hasn't he?", "did he?", "is he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh has never scored from that far, ______?",
+        options: ["has he?", "hasn't he?", "did he?", "does he?"],
+        answer: 0
+    },
+
+    {
+        q: "There is no stopping Avyan today, ______?",
+        options: ["is there?", "isn't there?", "does there?", "isn't it?"],
+        answer: 0
+    },
+
+    {
+        q: "There aren't many defenders faster than Avyan, ______?",
+        options: ["are there?", "aren't there?", "is there?", "do there?"],
+        answer: 0
+    },
+
+    {
+        q: "You used to beat Darsh in football, ______?",
+        options: ["didn't you?", "did you?", "weren't you?", "don't you?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh never passes when Avyan is open, ______?",
+        options: ["does he?", "doesn't he?", "is he?", "did he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan has to be marked carefully, ______?",
+        options: ["doesn't he?", "hasn't he?", "does he?", "isn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh doesn't have to take every free kick, ______?",
+        options: ["does he?", "doesn't he?", "has he?", "is he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan had better take the penalty, ______?",
+        options: ["hadn't he?", "wouldn't he?", "didn't he?", "isn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh would rather stay in defence, ______?",
+        options: ["wouldn't he?", "hadn't he?", "didn't he?", "isn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan seldom loses possession, ______?",
+        options: ["does he?", "doesn't he?", "is he?", "did he?"],
+        answer: 0
+    },
+
+    {
+        q: "You think Avyan is the best player here, ______?",
+        options: ["don't you?", "isn't he?", "do you?", "aren't you?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh believes he can beat Avyan, ______?",
+        options: ["doesn't he?", "isn't he?", "does he?", "can't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan's teammates trust him, ______?",
+        options: ["don't they?", "aren't they?", "do they?", "isn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "Darsh didn't defend well in that match, ______?",
+        options: ["did he?", "didn't he?", "was he?", "does he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan has scored more goals this season, ______?",
+        options: ["hasn't he?", "has he?", "doesn't he?", "isn't he?"],
+        answer: 0
+    },
+
+    {
+        q: "The goalkeeper couldn't stop Avyan's shot, ______?",
+        options: ["could he?", "couldn't he?", "did he?", "was he?"],
+        answer: 0
+    },
+
+    {
+        q: "Avyan is ready for the final, ______?",
+        options: ["isn't he?", "is he?", "doesn't he?", "won't he?"],
+        answer: 0
+    }
+
+];
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+
+const questionText =
+    document.getElementById("questionText");
+
+const optionsContainer =
+    document.getElementById("options");
+
+const feedback =
+    document.getElementById("feedback");
+
+const nextBtn =
+    document.getElementById("nextBtn");
+
+const progressText =
+    document.getElementById("progressText");
+
+const scoreText =
+    document.getElementById("scoreText");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const quizScreen =
+    document.getElementById("quizScreen");
+
+const resultsScreen =
+    document.getElementById("resultsScreen");
+
+
+function showLearn() {
+
+    document.getElementById("learnSection").style.display = "block";
+    document.getElementById("quizSection").style.display = "none";
+
+    document.getElementById("learnTab").classList.add("active");
+    document.getElementById("quizTab").classList.remove("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+function showQuiz() {
+
+    document.getElementById("learnSection").style.display = "none";
+    document.getElementById("quizSection").style.display = "block";
+
+    document.getElementById("quizTab").classList.add("active");
+    document.getElementById("learnTab").classList.remove("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+function startQuiz() {
+
+    currentQuestion = 0;
+    score = 0;
+    answered = false;
+
+    showQuiz();
+
+    resultsScreen.style.display = "none";
+    quizScreen.style.display = "block";
+
+    document.querySelector(".score-area").style.display = "flex";
+    document.querySelector(".progress-bar").style.display = "block";
+
+    loadQuestion();
+}
+
+
+function loadQuestion() {
+
+    answered = false;
+
+    const item = questions[currentQuestion];
+
+    document.getElementById("questionNumber").textContent =
+        `QUESTION ${currentQuestion + 1}`;
+
+    questionText.textContent = item.q;
+
+    progressText.textContent =
+        `Question ${currentQuestion + 1} of ${questions.length}`;
+
+    scoreText.textContent =
+        `Score: ${score}`;
+
+    progressFill.style.width =
+        `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+    feedback.textContent = "";
+
+    feedback.className = "feedback";
+
+    nextBtn.style.display = "none";
+
+    optionsContainer.innerHTML = "";
+
+    optionsContainer.classList.remove("fade");
+
+    void optionsContainer.offsetWidth;
+
+    optionsContainer.classList.add("fade");
+
+    item.options.forEach((option, index) => {
+
+        const button =
+            document.createElement("button");
+
+        button.className = "option";
+
+        button.textContent = option;
+
+        button.addEventListener(
+            "click",
+            () => selectAnswer(button, index)
+        );
+
+        optionsContainer.appendChild(button);
+
+    });
+}
+
+
+function selectAnswer(button, selectedIndex) {
+
+    if (answered) return;
+
+    answered = true;
+
+    const item = questions[currentQuestion];
+
+    const allOptions =
+        document.querySelectorAll(".option");
+
+    allOptions.forEach(option => {
+        option.disabled = true;
+    });
+
+    if (selectedIndex === item.answer) {
+
+        score++;
+
+        button.classList.add("correct");
+
+        feedback.textContent =
+            "Correct. Excellent work.";
+
+        feedback.classList.add("correct-text");
+
+    } else {
+
+        button.classList.add("incorrect");
+
+        allOptions[item.answer]
+            .classList.add("show-correct");
+
+        feedback.textContent =
+            `Not quite. The correct answer is "${item.options[item.answer]}"`;
+
+        feedback.classList.add("wrong-text");
+    }
+
+    scoreText.textContent =
+        `Score: ${score}`;
+
+    nextBtn.style.display = "block";
+}
+
+
+function nextQuestion() {
+
+    if (!answered) return;
+
+    quizScreen.classList.add("fade");
+
+    setTimeout(() => {
+
+        currentQuestion++;
+
+        if (currentQuestion >= questions.length) {
+
+            showResults();
+
+            return;
+        }
+
+        loadQuestion();
+
+    }, 300);
+}
+
+
+function showResults() {
+
+    quizScreen.style.display = "none";
+
+    resultsScreen.style.display = "block";
+
+    document.querySelector(".score-area")
+        .style.display = "none";
+
+    document.querySelector(".progress-bar")
+        .style.display = "none";
+
+    document.getElementById("finalScore")
+        .textContent = score;
+
+    const percentage =
+        (score / 50) * 100;
+
+    setTimeout(() => {
+
+        document.getElementById("finalScoreFill")
+            .style.width = `${percentage}%`;
+
+    }, 100);
+
+    let message;
+
+    if (score === 50) {
+
+        message =
+            "Perfect score. You have completely mastered Question Tags.";
+
+    } else if (score >= 45) {
+
+        message =
+            "Outstanding performance. Your Question Tag skills are excellent.";
+
+    } else if (score >= 40) {
+
+        message =
+            "Fantastic work. You have a very strong understanding of Question Tags.";
+
+    } else if (score >= 35) {
+
+        message =
+            "Great job. You understand most Question Tag rules very well.";
+
+    } else if (score >= 25) {
+
+        message =
+            "Good effort. Review the rules and you will become even stronger.";
+
+    } else {
+
+        message =
+            "Keep practising. Go through the Learn section again and give it another try.";
+    }
+
+    document.getElementById("resultMessage")
+        .textContent = message;
+}
+
+
+function restartQuiz() {
+
+    currentQuestion = 0;
+    score = 0;
+    answered = false;
+
+    resultsScreen.style.display = "none";
+
+    quizScreen.style.display = "block";
+
+    document.querySelector(".score-area")
+        .style.display = "flex";
+
+    document.querySelector(".progress-bar")
+        .style.display = "block";
+
+    document.getElementById("finalScoreFill")
+        .style.width = "0%";
+
+    loadQuestion();
+}
+
+
+</script>
+
+</body>
+</html>
